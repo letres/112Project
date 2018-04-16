@@ -1,15 +1,24 @@
 from tkinter import *
 from button import Button
 from button import default
+from board import Board
+from piece import Piece
 
 def redrawAll(canvas,data):
     canvas.create_text(0,0,text=str(data.width),anchor=NW)
-    data.button.draw(canvas)
+    for x in range(data.board.size[0]):
+        for y in range(data.board.size[1]):
+            data.board.board[x][y].draw(canvas)
+    for x in data.pieces:
+        for y in x:
+            if isinstance(y,Piece):
+                y.draw(data,canvas)
+
 
 def configure(event,data):
     data.width=event.width
     data.height=event.height
-    data.button.pos=(data.width/3,data.height/3,data.width/3*2,data.height/3*2)
+    data.board.resize(data)
 
 def keyPressed(event,data):
     pass
@@ -17,15 +26,22 @@ def keyPressed(event,data):
 def mousePressed(event,data):
     pass
 
-def mouseMoved(event,data):
-    if data.button.pos[0]<=event.x<=data.button.pos[2] and data.button.pos[1]<=event.y<=data.button.pos[3]:
-        data.button.state="Over"
+def buttonCheck(event,button):
+    if button.pos[0]<=event.x<=button.pos[2] and button.pos[1]<=event.y<=button.pos[3]:
+        button.state="Over"
     else:
-        data.button.state="On"
+        button.state="On"
+
+def mouseMoved(event,data):
+    for x in data.board.board:
+        for y in x:
+            buttonCheck(event,y)
 
 def init(data):
-    data.button=Button((0,0,100,100),default,color={"On":"red","Over":"blue"})
-
+    #data.button=Button((0,0,100,100),default,color={"On":"red","Over":"blue"})
+    data.board=Board(data,(8,8))
+    data.pieces=[[None for x in range(8)] for y in range(8)]
+    data.pieces[0][0]=Piece("","black",(0,0))
 def timerFired(data):
     pass
 
