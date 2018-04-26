@@ -24,7 +24,7 @@ def keyPressed(event,data):
     pass
 
 def mousePressed(event,data):
-    pass
+    
 
 def buttonCheck(event,button):
     if button.pos[0]<=event.x<=button.pos[2] and button.pos[1]<=event.y<=button.pos[3]:

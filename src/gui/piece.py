@@ -26,7 +26,7 @@ class Piece(object):
         size=data.board.size
         pos=((self.pos[0]+1.25)*cell[0],(self.pos[1]+.25)*cell[1],(self.pos[0]+1.75)*cell[0]
                 ,(self.pos[1]+.75)*cell[1])
-        canvas.create_oval(pos,fill=self.color)
+        canvas.create_oval(pos,fill=self.color,outline="red")
         pos=((pos[0]+pos[2])/2,(pos[1]+pos[3])/2)
         canvas.create_text(pos,text=self.letter,font="times 50",fill="red")
 
