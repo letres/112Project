@@ -8,7 +8,7 @@ class Board(object):
         for x in range(self.size[0]):
             self.board.append([])
             for y in range(self.size[1]):
-                if (y+x)%2:
+                if (y+x)%2==0:
                     checker="white"
                 else: checker="black"
                 self.board[x].append(Button((0,0,0,0),action=5,color={"On":checker,"Over":"blue"}

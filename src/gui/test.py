@@ -3,7 +3,8 @@ from button import Button
 from button import default
 from board import Board
 from piece import Piece
-
+from piece import Pawn
+from piece import Queen
 def redrawAll(canvas,data):
     canvas.create_text(0,0,text=str(data.width),anchor=NW)
     for x in range(data.board.size[0]):
@@ -24,7 +25,23 @@ def keyPressed(event,data):
     pass
 
 def mousePressed(event,data):
-    
+    if not data.select:
+        for x in range(len(data.board.board)):
+            for y in range(len(data.board.board[x])):
+                if (data.board.board[x][y].state=="Over" and 
+                        data.pieces[x][y]!=None):
+                    data.select=True
+                    data.pos=(x,y)
+                    break
+    else:
+        for x in range(len(data.pieces)):
+            for y in range(len(data.pieces[x])):
+                if data.board.board[x][y].state=="Over":
+                    data.pieces[data.pos[0]][data.pos[1]].move(data,(x,y))
+                    break
+
+                        
+
 
 def buttonCheck(event,button):
     if button.pos[0]<=event.x<=button.pos[2] and button.pos[1]<=event.y<=button.pos[3]:
@@ -41,7 +58,9 @@ def init(data):
     #data.button=Button((0,0,100,100),default,color={"On":"red","Over":"blue"})
     data.board=Board(data,(8,8))
     data.pieces=[[None for x in range(8)] for y in range(8)]
-    data.pieces[0][0]=Piece("","black",(0,0))
+    data.pieces[0][0]=Piece("","black",(0,0),data)
+    data.pieces[0][1]=Piece("","white",(0,1),data)
+    data.select=False
 def timerFired(data):
     pass
 
